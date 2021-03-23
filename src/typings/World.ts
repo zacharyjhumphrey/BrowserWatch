@@ -29,7 +29,10 @@ export default class World {
     // // THREEJS
     initCamera() {
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
-        camera.position.z = 5;
+        camera.position.x = 9;
+        camera.position.y = 6;
+        camera.position.z = 10;
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.scene.add(camera);
         return camera;
     }
@@ -49,9 +52,9 @@ export default class World {
     // // CANNONJS
     initCannon() {
         let newWorld = new CANNON.World();
-        newWorld.gravity.set(0, 0, 0);
         newWorld.broadphase = new CANNON.NaiveBroadphase();
         newWorld.solver.iterations = 10;
+        newWorld.gravity.set(0, -5.5, 0);
         return newWorld;
     }
 
