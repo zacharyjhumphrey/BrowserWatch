@@ -6,13 +6,16 @@
     "target": "es5",
     "strict": true,
     "paths": {
-      "three": ["../node_modules/three/build/three.module.js"]
+      "three": ["../node_modules/three/build/three.module.js"],
+      "cannon": ["../node_modules/cannon/build/cannon.js"],
+      "linked-list": ["../node_modules/linked-list/index.js"]
     },
-    "typeRoots": [ "node_modules/@types" ], 
-    "types": [ "three", "node" ],
+    "typeRoots": [ "node_modules/@types", "node_modules/linked-list" ], 
+    "types": [ "three", "node", "cannon", "linked-list" ],
     "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true 
-  }
+  },
+  "include": ["src/**/*"]
 }
