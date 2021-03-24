@@ -9,7 +9,6 @@ export default class World {
     scene: THREE.Scene;
     camera: THREE.Camera;
     renderer: THREE.Renderer;
-    // objects: LinkedList<LinkedList.Item>;
     objects: Array<GameObject>;
 
     constructor() {
@@ -29,8 +28,8 @@ export default class World {
     // // THREEJS
     initCamera() {
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
-        camera.position.x = 9;
-        camera.position.y = 6;
+        camera.position.x = -10;
+        camera.position.y = 15;
         camera.position.z = 10;
         camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.scene.add(camera);
@@ -94,7 +93,7 @@ export default class World {
         this.world.addBody(Object.body);
         
         // Add to Threejs scene
-        this.scene.add(Object.mesh);
+        this.scene.add(Object.object);
 
         // Store a reference to this object so that it can be updated later
         this.objects.push(Object);

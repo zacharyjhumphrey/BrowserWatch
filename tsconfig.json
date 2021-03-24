@@ -10,7 +10,7 @@
       "cannon": ["../node_modules/cannon/build/cannon.js"],
       "linked-list": ["../node_modules/linked-list/index.js"]
     },
-    "typeRoots": [ "node_modules/@types", "node_modules/linked-list" ], 
+    "typeRoots": [ "./node_modules/@types", "./node_modules/linked-list" ], 
     "types": [ "three", "node", "cannon", "linked-list" ],
     "allowJs": true,
     "esModuleInterop": true,

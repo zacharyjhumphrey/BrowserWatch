@@ -1,19 +1,32 @@
 const path = require('path');
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const webpack = require('webpack');
+const app = express();
+
+// Webpack serving middleware
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
 
 app.use(express.json());
 
 // Serving static files
-app.use(express.static(path.join(__dirname, 'build')));
+// app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Serving dependencies
-app.use('/modules', express.static(path.join(__dirname, './node_modules/')));
+// Serving models
+app.use('/models', express.static(path.join(__dirname, './models/')));
+
+// Serving webpack build
+app.use(
+  webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath,
+  })
+);
 
 // Render the main page
 app.get('/', (req, res) => {
   res.render('public/index.html');
 })
 
-app.listen(port);
+app.listen(3000);

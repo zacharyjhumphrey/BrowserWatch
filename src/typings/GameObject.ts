@@ -5,7 +5,7 @@ import World from './World';
 export default class GameObject {
     geometry: THREE.BufferGeometry;
     material: THREE.Material;
-    mesh: THREE.Mesh;
+    object: THREE.Object3D;
     boundingBox: THREE.Box3;
     parameters: THREE.Vector3;
     position: THREE.Vector3;
@@ -24,8 +24,9 @@ export default class GameObject {
         // Initializing THREE.JS
         this.geometry = geometry;
         this.material = material;
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.boundingBox = new THREE.Box3().setFromObject(this.mesh);
+        this.object = new THREE.Mesh(this.geometry, this.material);
+        
+        this.boundingBox = new THREE.Box3().setFromObject(this.object);
         this.parameters = this.boundingBox.getSize(new THREE.Vector3());
         this.position = position;
 
@@ -51,7 +52,7 @@ export default class GameObject {
         // Copy coordinates from Cannon.js to Three.js
         if (this.position.z != 0) 
             console.log(this.body.position);
-        this.mesh.position.copy(
+        this.object.position.copy(
             new THREE.Vector3(
                 this.body.position.x, 
                 this.body.position.y, 
@@ -59,7 +60,7 @@ export default class GameObject {
             )
         );
 
-        this.mesh.quaternion.copy(
+        this.object.quaternion.copy(
             new THREE.Quaternion(
                 this.body.quaternion.x, 
                 this.body.quaternion.y, 
