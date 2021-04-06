@@ -23,7 +23,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "dev": "webpack --watch",
+    "dev": "node app",
     "build": "webpack"
   },
   "repository": {

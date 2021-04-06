@@ -4,6 +4,8 @@ import World from './typings/World';
 import GameObject from './typings/GameObject';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
+console.log('change');
+
 let Game = new World();
 
 const loader = new GLTFLoader();
