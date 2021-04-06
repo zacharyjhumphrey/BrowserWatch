@@ -50,8 +50,6 @@ export default class GameObject {
 
     update() {
         // Copy coordinates from Cannon.js to Three.js
-        if (this.position.z != 0) 
-            console.log(this.body.position);
         this.object.position.copy(
             new THREE.Vector3(
                 this.body.position.x, 

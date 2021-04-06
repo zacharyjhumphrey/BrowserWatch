@@ -28,9 +28,9 @@ export default class World {
     // // THREEJS
     initCamera() {
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
-        camera.position.x = -10;
-        camera.position.y = 15;
-        camera.position.z = 10;
+        camera.position.x = -30;
+        camera.position.y = 35;
+        camera.position.z = 30;
         camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.scene.add(camera);
         return camera;
@@ -38,6 +38,14 @@ export default class World {
 
     initScene() {
         let scene = new THREE.Scene();
+
+        const generalLight = new THREE.AmbientLight(0x404040); // soft white light
+        scene.add(generalLight);
+
+        const light = new THREE.PointLight(0x87ceeb, 1, 100, 2);
+        light.position.set(20, 20, 20);
+        scene.add(light);
+
         return scene;
     }
 

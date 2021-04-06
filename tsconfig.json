@@ -8,9 +8,10 @@
     "paths": {
       "three": ["../node_modules/three/build/three.module.js"],
       "cannon": ["../node_modules/cannon/build/cannon.js"],
-      "linked-list": ["../node_modules/linked-list/index.js"]
+      "linked-list": ["../node_modules/linked-list/index.js"],
+      "three-to-cannon": ["../node_modules/three-to-cannon/index.js"]
     },
-    "typeRoots": [ "./node_modules/@types", "./node_modules/linked-list" ], 
+    "typeRoots": [ "./node_modules/@types", "./node_modules/linked-list", "./node_modules/three-to-cannon" ], 
     "types": [ "three", "node", "cannon", "linked-list" ],
     "allowJs": true,
     "esModuleInterop": true,
