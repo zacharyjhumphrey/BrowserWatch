@@ -28,9 +28,9 @@ export default class World {
     // // THREEJS
     initCamera() {
         let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
-        camera.position.x = -30;
-        camera.position.y = 35;
-        camera.position.z = 30;
+        camera.position.x = 15;
+        camera.position.y = 5;
+        camera.position.z = -10;
         camera.lookAt(new THREE.Vector3(0, 0, 0));
         this.scene.add(camera);
         return camera;
