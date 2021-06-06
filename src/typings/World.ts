@@ -1,41 +1,54 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon';
-import GameObject from './GameObject';
+import { GameObjectArgs, GameObject } from './GameObject';
+import Player from './Player';
+// import Stats from 'three/examples/jsm/libs/stats.module.js';
 // import * as LinkedList from 'linked-list';
 
+//TODO: Decide on public or private for all fields
 export default class World {
     timestep: number;
     world: CANNON.World;
+    container: HTMLElement;
     scene: THREE.Scene;
-    camera: THREE.Camera;
     renderer: THREE.Renderer;
+    clock: THREE.Clock;
+    clientPlayer: Player;
+    // stats: any;
     objects: Array<GameObject>;
 
+    //TODO: Put these in a better place
+    groundMaterial: CANNON.Material;
+    playerMaterial: CANNON.Material;
+
+
     constructor() {
+        this.container = document.getElementById('scene-container')!;
+        console.log(this.container);
+
+        this.clock = new THREE.Clock();
+
         this.timestep = 1/60;
+
+        this.groundMaterial = new CANNON.Material("ground");
+        this.playerMaterial = new CANNON.Material("player");
 
         // THREEJS
         this.scene = this.initScene();
-        this.camera = this.initCamera();
         this.renderer = this.initRenderer();
 
         // CANNONJS
         this.world = this.initCannon();
 
+        // this.stats = new Stats();
+
         this.objects = [];
+
+        // Creating a player --------------------------------------------------
+        this.clientPlayer = new Player(this);
     }
 
     // // THREEJS
-    initCamera() {
-        let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100);
-        camera.position.x = 15;
-        camera.position.y = 5;
-        camera.position.z = -10;
-        camera.lookAt(new THREE.Vector3(0, 0, 0));
-        this.scene.add(camera);
-        return camera;
-    }
-
     initScene() {
         let scene = new THREE.Scene();
 
@@ -52,7 +65,7 @@ export default class World {
     initRenderer() {
         let renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        this.container.appendChild(renderer.domElement);
         return renderer;
     }
 
@@ -61,7 +74,21 @@ export default class World {
         let newWorld = new CANNON.World();
         newWorld.broadphase = new CANNON.NaiveBroadphase();
         newWorld.solver.iterations = 10;
+
+        //TODO: Turn this into a world constant to make it easy to change
         newWorld.gravity.set(0, -5.5, 0);
+
+
+        let ground_player_cm = new CANNON.ContactMaterial(
+            this.groundMaterial, 
+            this.playerMaterial, 
+        {
+            friction: .0008,
+            restitution: 0
+        });
+
+        newWorld.addContactMaterial(ground_player_cm);
+
         return newWorld;
     }
 
@@ -92,7 +119,11 @@ export default class World {
 
     // Render the sim in the browser
     render() {
-        this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.clientPlayer.camera);
+    }
+
+    testingSetup() {
+        this.scene.add(new THREE.AxesHelper(10));
     }
 
     // Add object to the list of objects
