@@ -9,7 +9,30 @@
     <title>BrowserWatch</title>
 </head>
 <body>
-    <div id="scene-container"> </div>
+    <div id="scene-container">
+        <div id="hud">
+            <div class="health">
+                <span id="current-health">199</span>
+                / 
+                <span id="max-health">200</span>
+            </div>
+
+            <div class="ultimate">
+                <span id="ult-charge">73%</span>
+            </div>
+
+            <div class="more-info">
+                <div class="abilities">
+                    <span>E</span>
+                </div>
+
+                <div class="gun">
+                    <span id="current-clip">5</span>
+                    <span id="clip-max">20</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
     <script src="/bundle.js"></script>
 </html>
