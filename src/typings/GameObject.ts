@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import World from './World';
 import { Scene, Vector4 } from 'three';
+// import Player from './Player';
+// import GameMap from './GameMap';
 
+//TODO: Restructure everything for further use
 export interface GameObjectArgs {
     Game: World,
     position: THREE.Vector3,
@@ -13,38 +16,35 @@ export interface GameObjectArgs {
     scene?: THREE.Group,
 }
 
-export class GameObject {
-    // Setup ------------------------------------------
+export abstract class GameObject {
     Game: World;
     geometry?: THREE.BufferGeometry;
     material?: THREE.Material;
     object: THREE.Object3D | THREE.Scene;
     // boundingBox: THREE.Box3;
     // parameters: THREE.Vector3;
-    position: THREE.Vector3;
+    position: THREE.Vector3 = new THREE.Vector3(7.5, 10, 2);
     // quaternion: THREE.Vector4;
     body: CANNON.Body;
     // shape: CANNON.Box;
     mass: number;
     test: boolean = false;
-
-    // Game functions ---------------------------------
     rotates: boolean = true;
 
     constructor(args: GameObjectArgs) {
         this.Game = args.Game;
         this.position = args.position;
         // this.quaternion = new Vector4(0, 0, 0, 0);
+        this.mass = args.mass;
 
         // Initializing THREE.JS
         if (args.scene) {
-            this.mass = args.mass;
             this.object = new THREE.Object3D();
 
             this.body = new CANNON.Body({
                 position: new CANNON.Vec3(this.position.x, this.position.y, this.position.z),
                 mass: this.mass,
-                material: this.Game.groundMaterial
+                // material: GameMap.material
             });
             this.body.sleepSpeedLimit = 1.0;
 
@@ -70,11 +70,9 @@ export class GameObject {
             if (args.object) {
                 this.object = args.object;
             } else {
-                // this.test = true;
                 this.geometry = args.geometry;
                 this.material = args.material;
                 this.object = new THREE.Mesh(args.geometry, args.material);
-                // console.dir(this.object);
             }
 
             let boundingBox = new THREE.Box3().setFromObject(this.object);
@@ -88,11 +86,10 @@ export class GameObject {
                     parameters.z / 2
                 )
             );
-            this.mass = args.mass;
             this.body = new CANNON.Body({
                 position: new CANNON.Vec3(this.position.x, this.position.y, this.position.z),
                 mass: this.mass,
-                material: this.Game.playerMaterial
+                // material: Player.material
             });
             this.body.sleepSpeedLimit = 1.0;
             this.body.addShape(shape);

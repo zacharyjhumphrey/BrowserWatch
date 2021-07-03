@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon';
 import { GameObjectArgs, GameObject } from './GameObject';
 import Player from './Player';
+import GameMap from './GameMap';
 // import Stats from 'three/examples/jsm/libs/stats.module.js';
 // import * as LinkedList from 'linked-list';
 
@@ -17,11 +18,6 @@ export default class World {
     // stats: any;
     objects: Array<GameObject>;
 
-    //TODO: Put these in a better place
-    groundMaterial: CANNON.Material;
-    playerMaterial: CANNON.Material;
-
-
     constructor() {
         this.container = document.getElementById('scene-container')!;
         console.log(this.container);
@@ -29,9 +25,6 @@ export default class World {
         this.clock = new THREE.Clock();
 
         this.timestep = 1/60;
-
-        this.groundMaterial = new CANNON.Material("ground");
-        this.playerMaterial = new CANNON.Material("player");
 
         // THREEJS
         this.scene = this.initScene();
@@ -78,10 +71,9 @@ export default class World {
         //TODO: Turn this into a world constant to make it easy to change
         newWorld.gravity.set(0, -5.5, 0);
 
-
         let ground_player_cm = new CANNON.ContactMaterial(
-            this.groundMaterial, 
-            this.playerMaterial, 
+            GameMap.material, 
+            Player.material, 
         {
             friction: .0008,
             restitution: 0

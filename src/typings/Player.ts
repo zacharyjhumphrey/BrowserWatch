@@ -1,14 +1,16 @@
 import * as THREE from 'three';
-import { GameObjectArgs, GameObject } from './GameObject';
+import { GameObject } from './GameObject';
 import World from './World';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
-import { settings } from 'node:cluster';
+import * as CANNON from 'cannon';
 
 /**
  * This class contains all the controls and camera for the client player
  * as well 
  */
 export default class Player extends GameObject {
+    static material: CANNON.Material = new CANNON.Material("player");
+
     // ammo: number;
     // max_health: number;
     // current_health: number; 
@@ -20,16 +22,14 @@ export default class Player extends GameObject {
     private OVERHEAD_CAMERA: boolean;
 
     constructor(game: World) {
-        let superArgs: GameObjectArgs = {
+        super({
             Game: game,
             // position: new THREE.Vector3(7.5, 10, 2),
             position: new THREE.Vector3(10, 5, 0),
             mass: 1,
             geometry: new THREE.BoxGeometry(2, 1, 1),
             material: new THREE.MeshBasicMaterial({ color: 0xFFFFFF, wireframe: false }),
-        };
-
-        super(superArgs);
+        });
 
         //TODO Restructure so this can be in the initializer at the top 
         this.moveSpeed = 30;
@@ -67,7 +67,7 @@ export default class Player extends GameObject {
      * Controls for camera are predefined by THREE.PointerLockControls
      * @returns controls for the player to use
      */
-    initCameraControls() {
+    initCameraControls(): PointerLockControls {
         let controls: PointerLockControls = new PointerLockControls(this.camera, this.Game.renderer.domElement);
         this.Game.scene.add(controls.getObject());
 
@@ -105,7 +105,7 @@ export default class Player extends GameObject {
 
     }
 
-    setCameraPosition(pos: THREE.Vector3) {
+    setCameraPosition(pos: THREE.Vector3): void {
         this.camera.position.setX(pos.x);
         this.camera.position.setY(pos.y);
         this.camera.position.setZ(pos.z);
